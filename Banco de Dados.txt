@@ -1,0 +1,73 @@
+create table produtos(
+id_produto int not null auto_increment,
+codigo int not null,
+fornecedor varchar(30) not null,
+nome varchar(20) not null,
+marca varchar(20),
+quantidade int not null,
+valor_fornecedor float not null,
+valor_produto float not null,
+Data_Compra_Produto varchar(20) not null,
+primary key(id_produto)
+);
+
+create table estoque(
+id_estoque int not null auto_increment,
+nome varchar(30) not null,
+marca varchar(30) not null,
+quantidade int not null,
+valor float not null,
+primary key(id_estoque),
+foreign key(nome)
+references produtos(nome),
+foreign key(marca)
+references produtos(marca),
+foreign key(quantidade)
+references produtos(quantidade),
+foreign key(valor)
+references produtos(valor_produto)
+);
+
+create table cliente(
+id_cliente int not null auto_increment,
+nome varchar(30) not null,
+primary key(id_cliente)
+);
+
+create table compras(
+id_compras int not null auto_increment,
+nome_cliente varchar(30) not null,
+nome_produto varchar(30) not null,
+marca varchar(30) not null,
+quantidade int not null,
+valor float not null,
+forma_pagamento char(1) not null,
+primary key(id_compras),
+foreign key(nome_cliente)
+references cliente(nome),
+foreign key(nome_produto)
+references estoque(nome),
+foreign key(marca)
+references estoque(marca),
+foreign key(quantidade)
+references estoque(quantidade),
+foreign key(valor)
+references estoque(valor)
+);
+
+create table carteira_cliente(
+id_carteira int not null auto_increment,
+nome_cliente varchar(30) not null,
+produto varchar(30) not null,
+quantidade int not null,
+valor float not null,
+primary key(id_carteira),
+foreign key(nome_cliente)
+references compras(nome_cliente),
+foreign key(produto)
+references compras(nome_produto),
+foreign key(quantidade)
+references compras(quantidade),
+foreign key(valor)
+references compras(valor)
+);
